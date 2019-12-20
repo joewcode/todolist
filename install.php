@@ -8,6 +8,7 @@ Capsule::schema()->dropIfExists('users');
 Capsule::schema()->dropIfExists('tasks');
 
 // Create tables for database
+Capsule::schema()->defaultStringLength(191);
 
 Capsule::schema()->create('users', function ($table) {
 	$table->increments('id');
@@ -15,7 +16,7 @@ Capsule::schema()->create('users', function ($table) {
 	$table->string('email')->unique();
 	$table->string('password');
 	$table->boolean('admin')->default(false);
-	$table->string('auth_key')->nullable()->unique();
+	$table->string('auth_key')->nullable()->index();
 	$table->timestamps();
 });
 

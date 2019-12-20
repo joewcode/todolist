@@ -11,5 +11,3 @@ define('SQL_PASSWORD', '');
 define('TEMPLATE_CURRENT', 'default');
 define('PAGINATE_STEP', 3);
 
-
-

@@ -22,13 +22,8 @@ function auth() {
 	return $GLOBALS['authuser'];
 }
 
-
 // Routing
 include_once __DIR__ .'/../app/Router.php';
-
-
-
-var_dump(\App\is_admin());
 
 
 // .. end
