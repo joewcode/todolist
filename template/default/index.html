@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block jumbotron %}
+		<main role="main">
+			<div class="jumbotron">
+				<div class="col-sm-12">
+					<h1>Todo list example</h1>
+					<p>Enter the task text, user name, email and click submit</p>
+					<form class="form row" method="POST" id="newTaskForm">
+						<div class="col-4">
+							<input type="text" class="form-control " name="inputTaskName" placeholder="Name">
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control " name="inputTaskMail" placeholder="Email">
+						</div>
+						<div class="col-4">
+							<button type="submit" class="btn btn-primary" id="submitNewTask">Submit</button>
+						</div>
+						<div class="col-12">
+							<textarea class="form-control rounded-0" name="inputTaskText" placeholder="Text" rows="3"></textarea>
+						</div>
+					</form>
+					<div class="alert alert-primary text-center" role="alert" id="infoBox">
+						Messages about success or errors
+					</div>
+				</div>
+			</div>
+		</main>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+	<p>Sort: <a href="?page={{currentPage}}&sort=na">name A</a> / <a href="?page={{currentPage}}&sort=nz">name Z</a> | 
+		<a href="?page={{currentPage}}&sort=ae">email A</a> / <a href="?page={{currentPage}}&sort=ez">email Z</a> | 
+		<a href="?page={{currentPage}}&sort=sa">status A</a> / <a href="?page={{currentPage}}&sort=sz">status Z</a></p>
+	{% for task in tasks %}
+		<div class="card">
+			<div class="card-header">
+				{% if task.status %} <b class="text-success">Performed</b> {% else %} <b class="text-danger">In work</b> {% endif %}
+			</div>
+			<div class="card-body">
+				<h5 class="card-title">{{ task.name }} (<a href="mailto:{{ task.email }}">{{ task.email }}</a>)</h5>
+				<p class="card-text">{{ task.text }}</p>
+				<i>Created {{ task.created_at }} {% if task.created_at != task.updated_at %}| Edited by admin {{ task.updated_at }}{% endif %}</i>
+				{% if auth.admin == true %}
+				<div class="float-right">
+					<a href="/task/edit/{{ task.id }}" class="btn btn-primary">Edit</a> 
+					<a href="#" onClick="deleteTask({{ task.id }})" class="btn btn-primary">Delete</a> 
+					<a href="#" onClick="confirmTask({{ task.id }})" class="btn btn-primary">Confirm</a>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+		<nav aria-label="Page navigation">
+		{{ paginator | raw }}
+		</nav>
+	</div>
+{% endblock %}
